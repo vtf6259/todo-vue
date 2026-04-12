@@ -1,22 +1,41 @@
-<!-- eslint-disable vue/require-v-for-key -->
 <script setup lang="ts">
-  import { ref, useTemplateRef } from 'vue'
-  const userInput = useTemplateRef('userInput')
-  const tasks = ref(<string[]>[])
-  function addTask(task: string | undefined) {
-    if (task != undefined) {
-      tasks.value.push(task)
+import { onMounted, ref, useTemplateRef } from 'vue';
+  const tasks = ref(<string[]>["Hello this is a example task you will see this if you are visiting this for the first time or your tasks are invalid"])
+  const userInput = useTemplateRef("userInput")
+  
+  onMounted(() => {
+    userInput.value?.addEventListener("keypress", (e) => {
+      if (e.key == "Enter") {
+        addTaskOnClick()
+      }
+    })
+    const tasksLocalStorage = localStorage.getItem("tasks")
+    if (tasksLocalStorage != null) {
+      console.log(tasksLocalStorage)
+      try {
+        if (!Array.isArray(JSON.parse(tasksLocalStorage))) {
+          localStorage.removeItem("tasks")
+          location.reload()
+        }
+        tasks.value = JSON.parse(tasksLocalStorage)
+      } catch {
+        localStorage.removeItem("tasks")
+      }
+      
+      console.log(tasks)
     }
-  }
-  function addTaskOnClick() {
-    addTask(userInput.value?.value)
-    if (userInput?.value != null) {
-      userInput.value.value = ""
-    }
+  })
+  function removeTask(tasknum: number) {
+    console.log(tasknum)
+    console.log(tasks)
+    tasks.value.splice(tasknum, 1)
+    console.log(tasks)
     localStorage.setItem("tasks", JSON.stringify(tasks.value))
   }
-  function removeTask(task: number) {
-    tasks.value.splice(task,1)
+  function addTaskOnClick() {
+    if (userInput.value?.value == undefined || userInput.value?.value == "") return
+    tasks.value.push(userInput.value?.value)
+    if (userInput.value != null) userInput.value.value = "" 
     localStorage.setItem("tasks", JSON.stringify(tasks.value))
   }
 </script>

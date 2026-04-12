@@ -22,4 +22,8 @@ button {
     color: inherit;
     background-color: #434343;
     border: none;
+    border-radius: 10px;
+}
+button:hover {
+    background-color: #414141;
 }
