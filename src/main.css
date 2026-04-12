@@ -1,0 +1,25 @@
+:root {
+    background-color: black;
+    color: white;
+}
+input {
+    background-color: #434343;
+    color: inherit;
+    border: none;
+    border-radius: 10px;
+    width: 150px;
+    height: 50px;
+}
+.flexrow {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.flexrowMember {
+    flex-direction: row;
+}
+button {
+    color: inherit;
+    background-color: #434343;
+    border: none;
+}
